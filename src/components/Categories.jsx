@@ -1,45 +1,92 @@
-// components/Categories.jsx
+"use client";
 import { FiSearch } from "react-icons/fi";
+import { useState } from "react";
 
-export default function Categories({ category }) {
+export default function Categories({ categories, subCategories }) {
+  const [selectedCategory, setSelectedCategory] = useState(null);
+
+  const handleCategoryClick = (cat) => {
+    setSelectedCategory((prevCategory) =>
+      prevCategory === cat.id ? null : cat.id
+    );
+  };
+
   return (
-    <div className="w-80 bg-white rounded-2xl shadow border border-gray-100 p-4">
-      <div className="bg-green-600 text-white rounded-t-xl text-center py-2 font-semibold">
+    <div className="w-80 rounded-2xl shadow border border-gray-200 overflow-hidden font-sans bg-white">
+      {/* Header */}
+      <div className="bg-green-600 text-white text-center py-3 text-sm font-semibold">
         Categories
       </div>
-      <div className="p-3">
-        <div className="mb-4 relative">
+
+      {/* Search Bar */}
+      <div className="p-4 border-b">
+        <div className="relative">
+          <FiSearch className="absolute left-3 top-2.5 text-gray-400 text-lg" />
           <input
             type="text"
             placeholder="Search by Categories"
             className="w-full pl-10 pr-3 py-2 text-sm rounded border border-gray-300 focus:outline-none"
           />
-          <FiSearch className="absolute top-2.5 left-3 text-gray-500" />
         </div>
+      </div>
 
-        {/* Render categories dynamically from DB */}
-        {category?.map((cat) => (
-          <div
-            key={cat.id}
-            className="flex items-center justify-between p-3 rounded-xl bg-gray-50 border mb-2"
-          >
-            <div className="flex items-center space-x-2">
-              <img
-                src="/avatar-icon.png"
-                alt="avatar"
-                className="w-10 h-10 rounded-full"
-              />
-              <div>
-                <div className="font-medium text-gray-800">{cat.name}</div>
-                <div className="text-xs text-gray-500">
-                  Subcategory: {cat.subcategory_count ?? 0}
+      {/* Categories List */}
+      <div className="px-4 py-2 space-y-3">
+        {categories?.map((cat) => (
+          <div key={cat.id}>
+            <div
+              onClick={() => handleCategoryClick(cat)}
+              className={`${
+                selectedCategory === cat.id
+                  ? "rounded-xl bg-green-50 border border-green-300 p-3"
+                  : "flex items-center justify-between p-3 rounded-xl bg-gray-50 border border-gray-200 cursor-pointer"
+              }`}
+            >
+              <div className="flex items-center space-x-2">
+                <img
+                  src={cat.cat_icon}
+                  alt="avatar"
+                  className="w-10 h-10 rounded-full"
+                />
+                <div>
+                  <div className="font-medium text-green-700 text-sm">
+                    {cat.cat_name_en}
+                  </div>
+                  <div className="text-xs text-gray-500">
+                    Subcategory: {cat.no_of_subcat ?? 0}
+                  </div>
                 </div>
               </div>
+              <div className="text-right text-sm text-gray-600">
+                <div className="text-base font-semibold">
+                  {cat.no_of_dua ?? 0}
+                </div>
+                <div className="text-xs">Duas</div>
+              </div>
             </div>
-            <div className="text-right text-gray-500 text-sm">
-              <div className="text-lg font-semibold">{cat.dua_count ?? 0}</div>
-              <div className="text-xs">Duas</div>
-            </div>
+
+            {/* Render subcategories only if this category is selected */}
+            {selectedCategory === cat.id && (
+              <div className="mt-3 pl-6 border-l-2 border-dotted border-green-500 space-y-2">
+                {subCategories
+                  ?.filter((sub) => sub.cat_id === cat.cat_id)
+                  .map((sub, i) => (
+                    <div
+                      key={i}
+                      className="relative pl-3 text-sm text-gray-700"
+                    >
+                      <span className="absolute left-[-0.55rem] top-1 w-2 h-2 bg-green-500 rounded-full"></span>
+                      <span
+                        className={`${
+                          i === 0 ? "text-green-700 font-semibold" : ""
+                        }`}
+                      >
+                        {sub.subcat_name_en}
+                      </span>
+                    </div>
+                  ))}
+              </div>
+            )}
           </div>
         ))}
       </div>

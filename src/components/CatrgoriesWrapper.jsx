@@ -1,16 +1,13 @@
-// components/CategoriesWrapper.jsx
-import db from "@/lib/db"; // Database connection
+import db from "@/lib/db";
 import Categories from "@/components/Categories";
 
 export default async function CategoriesWrapper() {
-  // Fetch the categories from the database
-  const category = db.prepare("SELECT * FROM category").all();
-  console.log("Fetched Categories:", category);
+  const categories = db.prepare("SELECT * FROM category").all();
+  const subCategories = db.prepare("SELECT * FROM sub_category").all();
 
   return (
     <div className="p-6">
-      {/* Pass the category data as a prop to the Categories component */}
-      <Categories category={category} />
+      <Categories categories={categories} subCategories={subCategories} />
     </div>
   );
 }
