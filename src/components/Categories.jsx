@@ -4,12 +4,18 @@ import { useState } from "react";
 
 export default function Categories({ categories, subCategories }) {
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const handleCategoryClick = (cat) => {
     setSelectedCategory((prevCategory) =>
       prevCategory === cat.id ? null : cat.id
     );
   };
+
+  // Filter categories based on search query
+  const filteredCategories = categories?.filter((cat) =>
+    cat.cat_name_en.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div className="w-80 rounded-2xl shadow border border-gray-200 overflow-hidden font-sans bg-white">
@@ -25,6 +31,8 @@ export default function Categories({ categories, subCategories }) {
           <input
             type="text"
             placeholder="Search by Categories"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full pl-10 pr-3 py-2 text-sm rounded border border-gray-300 focus:outline-none"
           />
         </div>
@@ -32,7 +40,7 @@ export default function Categories({ categories, subCategories }) {
 
       {/* Categories List */}
       <div className="px-4 py-2 space-y-3">
-        {categories?.map((cat) => (
+        {filteredCategories?.map((cat) => (
           <div key={cat.id}>
             <div
               onClick={() => handleCategoryClick(cat)}
