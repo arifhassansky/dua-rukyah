@@ -14,7 +14,7 @@ export default function Home() {
       <Sidebar />
       <main>
         <Navbar />
-        <div className="flex flex-1 mt-[35px]">
+        <div className="flex  mt-[35px]">
           <CatAndDua
             categories={categories}
             subCategories={subCategories}
