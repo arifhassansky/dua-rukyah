@@ -17,7 +17,11 @@ const CatAndDua = ({ categories, subCategories, duas }) => {
         />
       </div>
       <div className="flex-1 overflow-y-auto ml-[33px] mr-[29px]">
-        <DuaContent duas={duas} selectedSubcategoryId={selectedSubcategoryId} />
+        <DuaContent
+          duas={duas}
+          subCategories={subCategories}
+          selectedSubcategoryId={selectedSubcategoryId}
+        />
       </div>
     </>
   );

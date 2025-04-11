@@ -1,6 +1,10 @@
 import { FiBookmark, FiVolume2, FiCopy, FiShare2 } from "react-icons/fi";
 
-export default function DuaContent({ selectedSubcategoryId, duas }) {
+export default function DuaContent({
+  selectedSubcategoryId,
+  duas,
+  subCategories,
+}) {
   const defaultCatId = duas[0]?.cat_id;
   const activeCatId = selectedSubcategoryId || defaultCatId;
 
@@ -8,10 +12,11 @@ export default function DuaContent({ selectedSubcategoryId, duas }) {
 
   return (
     <div className="space-y-4">
-      <div className="text-sm text-gray-500 bg-white rounded-[10px] py-[18px] px-[30px]">
-        Section:
+      <div className="text-sm text-gray-500 bg-white rounded-[10px] py-[15px] px-[30px]">
+        <span className="text-green-700 font-semibold">Section: </span>
         <span className="text-gray-900">
-          The servant is dependent on his Lord
+          {subCategories.find((sub) => sub.subcat_id === activeCatId)
+            ?.subcat_name_en || "Unnamed Subcategory"}
         </span>
       </div>
 
