@@ -1,22 +1,25 @@
-import DuaContent from "@/components/DuaContent";
 import Navbar from "@/components/Navbar";
 import SettingsPanel from "@/components/SettingsPanel";
 import Sidebar from "@/components/Sidebar";
-import CategoriesWrapper from "@/components/CatrgoriesWrapper";
+import CatAndDua from "@/components/CatAndDua";
+import db from "@/lib/db";
 
 export default function Home() {
+  const categories = db.prepare("SELECT * FROM category").all();
+  const subCategories = db.prepare("SELECT * FROM sub_category").all();
+  const duas = db.prepare("SELECT * FROM dua").all();
+
   return (
     <div className="flex mt-10">
       <Sidebar />
       <main>
         <Navbar />
         <div className="flex flex-1">
-          <div className="p-6">
-            <CategoriesWrapper />
-          </div>
-          <div className="flex-1 p-6 overflow-y-auto">
-            <DuaContent />
-          </div>
+          <CatAndDua
+            categories={categories}
+            subCategories={subCategories}
+            duas={duas}
+          />
           <div>
             <SettingsPanel />
           </div>

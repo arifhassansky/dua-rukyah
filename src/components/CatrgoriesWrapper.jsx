@@ -1,13 +1,17 @@
-import db from "@/lib/db";
 import Categories from "@/components/Categories";
 
-export default async function CategoriesWrapper() {
-  const categories = db.prepare("SELECT * FROM category").all();
-  const subCategories = db.prepare("SELECT * FROM sub_category").all();
-
+export default function CategoriesWrapper({
+  categories,
+  subCategories,
+  setSelectedSubcategoryId,
+}) {
   return (
     <div className="p-6">
-      <Categories categories={categories} subCategories={subCategories} />
+      <Categories
+        categories={categories}
+        subCategories={subCategories}
+        setSelectedSubcategoryId={setSelectedSubcategoryId}
+      />
     </div>
   );
 }

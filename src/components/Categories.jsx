@@ -2,7 +2,11 @@
 import { FiSearch } from "react-icons/fi";
 import { useState } from "react";
 
-export default function Categories({ categories, subCategories }) {
+export default function Categories({
+  categories,
+  subCategories,
+  setSelectedSubcategoryId,
+}) {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -84,13 +88,14 @@ export default function Categories({ categories, subCategories }) {
                       className="relative pl-3 text-sm text-gray-700"
                     >
                       <span className="absolute left-[-0.55rem] top-1 w-2 h-2 bg-green-500 rounded-full"></span>
-                      <span
+                      <button
+                        onClick={() => setSelectedSubcategoryId(sub.cat_id)}
                         className={`${
                           i === 0 ? "text-green-700 font-semibold" : ""
                         }`}
                       >
                         {sub.subcat_name_en}
-                      </span>
+                      </button>
                     </div>
                   ))}
               </div>
