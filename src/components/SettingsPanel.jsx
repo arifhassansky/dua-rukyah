@@ -44,7 +44,7 @@ export default function SettingsPanel() {
             className={`flex items-center p-3 rounded-xl cursor-pointer transition group
               ${
                 activeTab === tab.id
-                  ? "bg-white text-green-600 border-l-4 border-green-500 shadow-sm"
+                  ? "bg-white text-[#1FA45B] border-l-4 border-[#1FA45B] shadow-sm"
                   : "bg-gray-100 text-gray-500"
               }`}
           >
@@ -52,8 +52,8 @@ export default function SettingsPanel() {
               className={`w-8 h-8 flex items-center justify-center rounded-full mr-2 transition-all
                 ${
                   activeTab === tab.id
-                    ? "bg-green-100 text-green-600"
-                    : "bg-gray-200 text-gray-400"
+                    ? "bg-[#E8F0F5] text-[#1FA45B]"
+                    : "bg-gray-200 text-[#868686]"
                 }`}
             >
               {tab.icon}
@@ -64,14 +64,14 @@ export default function SettingsPanel() {
         {activeTab === "appearance" && (
           <div className="px-3 rounded-xl bg-white my-[28px]">
             <div className="flex justify-between items-center">
-              <span className="text-gray-800">Night Mode</span>
+              <span className="text-[#393939]">Night Mode</span>
               <label className="relative inline-flex items-center cursor-pointer">
                 <input
                   type="checkbox"
                   className="sr-only peer"
                   defaultChecked
                 />
-                <div className="w-11 h-6 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:bg-gray-600 transition-colors" />
+                <div className="w-11 h-6 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:bg-[#C1C1C1B2] transition-colors" />
                 <div className="absolute left-0.5 top-0.5 w-5 h-5 bg-white rounded-full shadow-md transform peer-checked:translate-x-5 transition-transform" />
               </label>
             </div>

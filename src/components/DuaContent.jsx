@@ -128,7 +128,7 @@ export default function DuaContent({
 
               {dua.refference_en && (
                 <p className="mt-2">
-                  <span className="text-emerald-700 font-semibold">
+                  <span className="text-[#1FA45B] font-semibold">
                     Reference:
                   </span>
                   <br />
@@ -170,20 +170,20 @@ export default function DuaContent({
                     {copiedIndex === i ? (
                       <>
                         <FiCheck className="text-green-500" />
-                        <span className="text-green-600 text-xs">Copied!</span>
+                        <span className="text-[#1FA45B] text-xs">Copied!</span>
                       </>
                     ) : (
                       <FiCopy
-                        className="cursor-pointer hover:text-emerald-500"
+                        className="cursor-pointer hover:text-[#1FA45B]"
                         onClick={() => handleCopy(dua, i)}
                       />
                     )}
                   </div>
 
-                  <FiBookmark className="cursor-pointer hover:text-emerald-500" />
-                  <HiOutlineLightBulb className="cursor-pointer hover:text-emerald-500" />
-                  <FiShare2 className="cursor-pointer hover:text-emerald-500" />
-                  <BsExclamationOctagon className="cursor-pointer hover:text-emerald-500" />
+                  <FiBookmark className="cursor-pointer hover:text-[#1FA45B]" />
+                  <HiOutlineLightBulb className="cursor-pointer hover:text-[#1FA45B]" />
+                  <FiShare2 className="cursor-pointer hover:text-[#1FA45B]" />
+                  <BsExclamationOctagon className="cursor-pointer hover:text-[#1FA45B]" />
                 </div>
               </div>
             </div>

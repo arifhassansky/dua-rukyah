@@ -25,7 +25,7 @@ export default function Categories({
   return (
     <div className="w-72 min-h-screen rounded-xl border-gray-200 border-[0.5px] overflow-hidden bg-white ml-[30px] hidden lg:block">
       {/* Header */}
-      <div className="bg-[#1FA45B] text-[17px] text-white text-center py-[18px] text-sm font-semibold">
+      <div className="bg-[#1FA45B] text-[17px] text-white text-center py-[18px] font-semibold">
         Categories
       </div>
 
@@ -38,7 +38,7 @@ export default function Categories({
             placeholder="Search by Categories"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-3 py-2 text-sm rounded-[7px] border-[1.5px] border-gray-300 focus:outline-none"
+            className="w-full pl-10 placeholder:text-gray-400 pr-3 py-2 text-sm rounded-[7px] border-[1.5px] border-gray-300 focus:outline-none text-gray-800"
           />
         </div>
       </div>
@@ -81,7 +81,7 @@ export default function Categories({
 
             {/* Render subcategories only if this category is selected */}
             {selectedCategory === cat.id && (
-              <div className="mt-3 border-l-2 border-dotted border-green-500 space-y-2">
+              <div className="mt-3 border-l-2 border-dotted border-[#1FA45B] space-y-2">
                 {subCategories
                   ?.filter((sub) => sub.cat_id === cat.cat_id)
                   .map((sub, i) => (

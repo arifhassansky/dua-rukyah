@@ -2,24 +2,25 @@
 import {
   FiHome,
   FiGrid,
-  FiLightbulb,
   FiBookmark,
   FiDollarSign,
-  FiSearch,
   FiBookOpen,
 } from "react-icons/fi";
 import { FaPersonPraying } from "react-icons/fa6";
 import Image from "next/image";
+import { HiOutlineLightBulb } from "react-icons/hi2";
+import { TbMedicineSyrup, TbMessages } from "react-icons/tb";
+import { BsBook } from "react-icons/bs";
 
 export default function Sidebar() {
   const menuItems = [
-    { icon: <FiHome />, label: "Home" },
-    { icon: <FiGrid />, label: "Categories" },
-    // { icon: <FiLightbulb />, label: "Tips" },
-    { icon: <FiBookmark />, label: "Bookmarks" },
-    { icon: <FiDollarSign />, label: "Donate" },
-    { icon: <FiSearch />, label: "Search" },
-    { icon: <FiBookOpen />, label: "Read" },
+    { icon: <FiHome size={20} />, label: "Home" },
+    { icon: <FiGrid size={20} />, label: "Categories" },
+    { icon: <HiOutlineLightBulb size={20} />, label: "Tips" },
+    { icon: <FiBookmark size={20} />, label: "Bookmarks" },
+    { icon: <TbMedicineSyrup size={20} />, label: "Donate" },
+    { icon: <TbMessages size={20} />, label: "message" },
+    { icon: <BsBook size={20} />, label: "Read" },
   ];
 
   return (
@@ -37,7 +38,7 @@ export default function Sidebar() {
         {menuItems.map((item, index) => (
           <button
             key={index}
-            className="w-10 h-10 rounded-full bg-gray-100 text-gray-500 hover:text-emerald-500 hover:bg-emerald-50 flex items-center justify-center transition"
+            className="w-10 h-10 rounded-full bg-gray-100 text-gray-500 hover:text-[#1FA45B] hover:bg-emerald-50 flex items-center justify-center transition"
             title={item.label}
           >
             {item.icon}
