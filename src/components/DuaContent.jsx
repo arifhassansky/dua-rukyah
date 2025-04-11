@@ -1,40 +1,22 @@
 import { FiBookmark, FiVolume2, FiCopy, FiShare2 } from "react-icons/fi";
-import { useRef } from "react";
 
 export default function DuaContent({ selectedSubcategoryId, duas }) {
-  const audioRefs = useRef({});
+  const defaultCatId = duas[0]?.cat_id;
+  const activeCatId = selectedSubcategoryId || defaultCatId;
 
-  const playAudio = (id) => {
-    // Pause all audios first
-    Object.values(audioRefs.current).forEach((audio) => {
-      if (audio && !audio.paused) {
-        audio.pause();
-        audio.currentTime = 0;
-      }
-    });
-
-    // Then play the selected one
-    if (audioRefs.current[id]) {
-      audioRefs.current[id].play();
-    }
-  };
-
-  const FilteredDuas = duas.filter(
-    (dua) => dua.subcat_id == selectedSubcategoryId
-  );
+  const FilteredDuas = duas.filter((dua) => dua.subcat_id === activeCatId);
 
   return (
     <div className="space-y-4">
-      {/* Section Title */}
-      <div className="text-sm text-gray-500">
+      <div className="text-sm text-gray-500 bg-white rounded-[10px] py-[18px] px-[30px]">
         Section:
         <span className="text-gray-900">
           The servant is dependent on his Lord
         </span>
       </div>
 
-      {FilteredDuas?.map((dua) => (
-        <div key={dua.id}>
+      {FilteredDuas?.map((dua, i) => (
+        <div key={i}>
           <div className="bg-white p-4 rounded border border-gray-200">
             <h2 className="text-emerald-600 font-semibold flex items-center mb-2">
               {dua.dua_name_en}
@@ -62,22 +44,11 @@ export default function DuaContent({ selectedSubcategoryId, duas }) {
               </p>
             )}
 
-            {/* Hidden Audio Element */}
-            {dua.audio && (
-              <audio ref={(el) => (audioRefs.current[dua.id] = el)}>
-                <source src={dua.audio} type="audio/mpeg" />
-                Your browser does not support the audio element.
-              </audio>
-            )}
-
             <div className="flex gap-4 mt-4 text-gray-500">
               <FiCopy className="cursor-pointer hover:text-emerald-500" />
               <FiBookmark className="cursor-pointer hover:text-emerald-500" />
               {dua.audio && (
-                <FiVolume2
-                  className="cursor-pointer hover:text-emerald-500"
-                  onClick={() => playAudio(dua.id)}
-                />
+                <FiVolume2 className="cursor-pointer hover:text-emerald-500" />
               )}
               <FiShare2 className="cursor-pointer hover:text-emerald-500" />
             </div>

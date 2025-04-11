@@ -1,6 +1,7 @@
 "use client";
 import { FiSearch } from "react-icons/fi";
 import { useState } from "react";
+import Image from "next/image";
 
 export default function Categories({
   categories,
@@ -22,14 +23,14 @@ export default function Categories({
   );
 
   return (
-    <div className="w-80 rounded-2xl shadow border border-gray-200 overflow-hidden font-sans bg-white">
+    <div className="w-72 rounded-xl border-gray-200 border-[0.5px] overflow-hidden bg-white ml-[30px]">
       {/* Header */}
-      <div className="bg-green-600 text-white text-center py-3 text-sm font-semibold">
+      <div className="bg-[#1FA45B] text-[17px] text-white text-center py-[18px] text-sm font-semibold">
         Categories
       </div>
 
       {/* Search Bar */}
-      <div className="p-4 border-b">
+      <div className="p-[15px]">
         <div className="relative">
           <FiSearch className="absolute left-3 top-2.5 text-gray-400 text-lg" />
           <input
@@ -37,34 +38,35 @@ export default function Categories({
             placeholder="Search by Categories"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-3 py-2 text-sm rounded border border-gray-300 focus:outline-none"
+            className="w-full pl-10 pr-3 py-2 text-sm rounded-[7px] border-[1.5px] border-gray-300 focus:outline-none"
           />
         </div>
       </div>
 
       {/* Categories List */}
-      <div className="px-4 py-2 space-y-3">
+      <div className="px-[15px] space-y-3">
         {filteredCategories?.map((cat) => (
           <div key={cat.id}>
             <div
               onClick={() => handleCategoryClick(cat)}
               className={`${
                 selectedCategory === cat.id
-                  ? "rounded-xl bg-green-50 border border-green-300 p-3"
-                  : "flex items-center justify-between p-3 rounded-xl bg-gray-50 border border-gray-200 cursor-pointer"
+                  ? "rounded-xl bg-[#E8F0F5] p-3"
+                  : "flex items-center justify-between p-[10px] rounded-[10px] bg-gray-50 border border-gray-200 cursor-pointer"
               }`}
             >
-              <div className="flex items-center space-x-2">
-                <img
-                  src={cat.cat_icon}
-                  alt="avatar"
-                  className="w-10 h-10 rounded-full"
+              <div className="flex items-center space-x-4">
+                <Image
+                  src="/cat_image.png"
+                  alt="catrgory pic"
+                  width={40}
+                  height={40}
                 />
                 <div>
-                  <div className="font-medium text-green-700 text-sm">
+                  <div className="font-medium text-green-700 mb-[5px]">
                     {cat.cat_name_en}
                   </div>
-                  <div className="text-xs text-gray-500">
+                  <div className="text-sm text-gray-500">
                     Subcategory: {cat.no_of_subcat ?? 0}
                   </div>
                 </div>
@@ -79,7 +81,7 @@ export default function Categories({
 
             {/* Render subcategories only if this category is selected */}
             {selectedCategory === cat.id && (
-              <div className="mt-3 pl-6 border-l-2 border-dotted border-green-500 space-y-2">
+              <div className="mt-3 border-l-2 border-dotted border-green-500 space-y-2">
                 {subCategories
                   ?.filter((sub) => sub.cat_id === cat.cat_id)
                   .map((sub, i) => (
@@ -87,9 +89,9 @@ export default function Categories({
                       key={i}
                       className="relative pl-3 text-sm text-gray-700"
                     >
-                      <span className="absolute left-[-0.55rem] top-1 w-2 h-2 bg-green-500 rounded-full"></span>
+                      <span className="absolute -left-[5px] top-1 w-2 h-2 bg-green-500 rounded-full"></span>
                       <button
-                        onClick={() => setSelectedSubcategoryId(sub.cat_id)}
+                        onClick={() => setSelectedSubcategoryId(sub.subcat_id)}
                         className={`${
                           i === 0 ? "text-green-700 font-semibold" : ""
                         }`}

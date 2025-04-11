@@ -10,11 +10,11 @@ export default function Home() {
   const duas = db.prepare("SELECT * FROM dua").all();
 
   return (
-    <div className="flex mt-10">
+    <div className="flex">
       <Sidebar />
       <main>
         <Navbar />
-        <div className="flex flex-1">
+        <div className="flex flex-1 mt-[35px]">
           <CatAndDua
             categories={categories}
             subCategories={subCategories}

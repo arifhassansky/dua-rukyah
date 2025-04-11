@@ -1,21 +1,22 @@
 "use client";
 import { useState } from "react";
-import CategoriesWrapper from "./CatrgoriesWrapper";
 import DuaContent from "./DuaContent";
+import Categories from "./Categories";
 
 const CatAndDua = ({ categories, subCategories, duas }) => {
   const [selectedSubcategoryId, setSelectedSubcategoryId] = useState(null);
+
   console.log(selectedSubcategoryId);
   return (
     <>
-      <div className="p-6">
-        <CategoriesWrapper
+      <div>
+        <Categories
           categories={categories}
           subCategories={subCategories}
           setSelectedSubcategoryId={setSelectedSubcategoryId}
         />
       </div>
-      <div className="flex-1 p-6 overflow-y-auto">
+      <div className="flex-1 overflow-y-auto ml-[33px] mr-[29px]">
         <DuaContent duas={duas} selectedSubcategoryId={selectedSubcategoryId} />
       </div>
     </>
