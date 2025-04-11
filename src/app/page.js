@@ -10,7 +10,7 @@ export default function Home() {
   const duas = db.prepare("SELECT * FROM dua").all();
 
   return (
-    <div className="flex">
+    <div className="flex pb-20">
       <Sidebar />
       <main>
         <Navbar />

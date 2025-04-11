@@ -23,7 +23,7 @@ export default function Sidebar() {
   ];
 
   return (
-    <aside className="bg-white px-[13px] rounded-3xl mt-[40px]">
+    <aside className="bg-white px-[13px] rounded-3xl mt-[40px] hidden lg:block">
       <Image
         src="/logo.png"
         alt="Logo"

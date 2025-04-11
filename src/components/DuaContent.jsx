@@ -1,8 +1,15 @@
-import { FiBookmark, FiVolume2, FiCopy, FiShare2 } from "react-icons/fi";
+import {
+  FiBookmark,
+  FiVolume2,
+  FiCopy,
+  FiShare2,
+  FiCheck,
+} from "react-icons/fi";
 import { HiOutlineLightBulb } from "react-icons/hi2";
 import { BsExclamationOctagon } from "react-icons/bs";
 import { FaCirclePlay } from "react-icons/fa6";
 import { useState, useRef } from "react";
+import Image from "next/image";
 
 const fallbackAudio =
   "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";
@@ -18,14 +25,14 @@ export default function DuaContent({
   const FilteredDuas = duas.filter((dua) => dua.subcat_id === activeCatId);
 
   const [playingAudio, setPlayingAudio] = useState(null);
-  const [audioError, setAudioError] = useState(null);
+  const [copiedIndex, setCopiedIndex] = useState(null);
+
   const audioRefs = useRef([]);
 
   const handlePlayPause = (index) => {
     const currentAudio = audioRefs.current[index];
     if (!currentAudio) return;
 
-    // Stop previously playing audio
     if (playingAudio !== null && playingAudio !== index) {
       audioRefs.current[playingAudio]?.pause();
       setPlayingAudio(null);
@@ -34,24 +41,16 @@ export default function DuaContent({
     if (currentAudio.paused) {
       currentAudio
         .play()
-        .then(() => {
-          setAudioError(null);
-          setPlayingAudio(index);
-        })
+        .then(() => setPlayingAudio(index))
         .catch((error) => {
           console.error("Main audio failed:", error);
-          // Try fallback audio
           currentAudio.src = fallbackAudio;
           currentAudio
             .play()
-            .then(() => {
-              setAudioError("Main audio failed. Fallback audio playing.");
-              setPlayingAudio(index);
-            })
-            .catch((fallbackError) => {
-              console.error("Fallback also failed:", fallbackError);
-              setAudioError("Failed to load any audio. Please try again.");
-            });
+            .then(() => setPlayingAudio(index))
+            .catch((fallbackError) =>
+              console.error("Fallback also failed:", fallbackError)
+            );
         });
     } else {
       currentAudio.pause();
@@ -59,11 +58,33 @@ export default function DuaContent({
     }
   };
 
+  // handle copy text
+  const handleCopy = (dua, index) => {
+    const textToCopy = `
+  ${dua.dua_name_en || ""}
+  ${dua.top_en || ""}
+  ${dua.dua_arabic || ""}
+  ${dua.transliteration_en ? "Transliteration: " + dua.transliteration_en : ""}
+  ${dua.translation_en ? "Translation: " + dua.translation_en : ""}
+  ${dua.refference_en ? "Reference: " + dua.refference_en : ""}
+    `.trim();
+
+    navigator.clipboard
+      .writeText(textToCopy)
+      .then(() => {
+        setCopiedIndex(index);
+        setTimeout(() => setCopiedIndex(null), 2000);
+      })
+      .catch((err) => {
+        console.error("Failed to copy:", err);
+      });
+  };
+
   return (
     <div className="space-y-4">
       <div className="text-sm text-gray-500 bg-white rounded-[10px] py-[15px] px-[30px]">
         <span className="text-green-700 font-semibold">Section: </span>
-        <span className="text-gray-900">
+        <span className="text-gray-900 font-medium">
           {subCategories.find((sub) => sub.subcat_id === activeCatId)
             ?.subcat_name_en || "Unnamed Subcategory"}
         </span>
@@ -76,9 +97,18 @@ export default function DuaContent({
         return (
           <div key={i}>
             <div className="bg-white px-[30px] py-[15px] rounded-[10px] border border-gray-200">
-              <h2 className="text-emerald-600 font-semibold flex items-center mb-2">
-                {dua.dua_name_en}
-              </h2>
+              <div className="flex items-center mb-7 gap-[5px]">
+                <Image
+                  src="/card_title_img.png"
+                  width={35}
+                  height={35}
+                  alt="title image"
+                />
+                <h2 className="text-emerald-600 font-semibold flex items-center mb-2">
+                  {i + 1}. {dua.dua_name_en}
+                </h2>
+              </div>
+
               <p className="text-sm text-gray-800">{dua.top_en}</p>
               <div className="text-right text-2xl leading-loose mt-3">
                 <p className="text-gray-900">{dua.dua_arabic}</p>
@@ -98,55 +128,59 @@ export default function DuaContent({
 
               {dua.refference_en && (
                 <p className="mt-2">
-                  <span className=" text-emerald-700 font-semibold">
+                  <span className="text-emerald-700 font-semibold">
                     Reference:
                   </span>
                   <br />
-                  {dua.refference_en}
+                  <span className="text-gray-800 font-semibold">
+                    {dua.refference_en}
+                  </span>
                 </p>
               )}
 
-              <div className="flex justify-between mt-7">
-                {dua.audio && (
-                  <div>
-                    <audio
-                      ref={(el) => (audioRefs.current[i] = el)}
-                      src={correctedAudio}
-                      type="audio/mpeg/mp3"
-                      preload="auto"
-                      onError={(e) => {
-                        console.error("Error loading audio:", e);
-                        setAudioError(
-                          "Failed to load audio. Playing fallback."
-                        );
-                      }}
-                      onPlaying={() => setAudioError(null)}
-                    />
-                    <button
-                      onClick={() => handlePlayPause(i)}
-                      className="text-[#1FA45B] w-11 h-11"
-                    >
-                      {playingAudio === i ? (
-                        <FaCirclePlay className="rotate-180" />
-                      ) : (
-                        <FaCirclePlay />
-                      )}
-                    </button>
-                  </div>
-                )}
-
-                {audioError && (
-                  <div className="text-red-500 mt-2">
-                    <span>{audioError}</span>
-                  </div>
-                )}
-
-                <div className="flex gap-[39px] mt-4 text-gray-500">
-                  <FiCopy className="cursor-pointer hover:text-emerald-500" />
-                  <FiBookmark className="cursor-pointer hover:text-emerald-500" />
+              <div className="flex items-center justify-between mt-7">
+                <div>
                   {dua.audio && (
-                    <FiVolume2 className="cursor-pointer hover:text-emerald-500" />
+                    <div>
+                      <audio
+                        ref={(el) => (audioRefs.current[i] = el)}
+                        src={correctedAudio}
+                        type="audio/mpeg/mp3"
+                        preload="auto"
+                        onError={(e) =>
+                          console.error("Error loading audio:", e)
+                        }
+                      />
+                      <button
+                        onClick={() => handlePlayPause(i)}
+                        className="text-[#1FA45B] "
+                      >
+                        {playingAudio === i ? (
+                          <FaCirclePlay size={44} className="rotate-180" />
+                        ) : (
+                          <FaCirclePlay size={44} />
+                        )}
+                      </button>
+                    </div>
                   )}
+                </div>
+
+                <div className="flex gap-[39px] mt-4 text-gray-500 items-center">
+                  <div className="flex items-center gap-1">
+                    {copiedIndex === i ? (
+                      <>
+                        <FiCheck className="text-green-500" />
+                        <span className="text-green-600 text-xs">Copied!</span>
+                      </>
+                    ) : (
+                      <FiCopy
+                        className="cursor-pointer hover:text-emerald-500"
+                        onClick={() => handleCopy(dua, i)}
+                      />
+                    )}
+                  </div>
+
+                  <FiBookmark className="cursor-pointer hover:text-emerald-500" />
                   <HiOutlineLightBulb className="cursor-pointer hover:text-emerald-500" />
                   <FiShare2 className="cursor-pointer hover:text-emerald-500" />
                   <BsExclamationOctagon className="cursor-pointer hover:text-emerald-500" />

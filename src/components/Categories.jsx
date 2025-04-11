@@ -23,7 +23,7 @@ export default function Categories({
   );
 
   return (
-    <div className="w-72 rounded-xl border-gray-200 border-[0.5px] overflow-hidden bg-white ml-[30px]">
+    <div className="w-72 min-h-screen rounded-xl border-gray-200 border-[0.5px] overflow-hidden bg-white ml-[30px] hidden lg:block">
       {/* Header */}
       <div className="bg-[#1FA45B] text-[17px] text-white text-center py-[18px] text-sm font-semibold">
         Categories
@@ -44,7 +44,7 @@ export default function Categories({
       </div>
 
       {/* Categories List */}
-      <div className="px-[15px] space-y-3">
+      <div className="px-[15px] space-y-3 pb-4">
         {filteredCategories?.map((cat) => (
           <div key={cat.id}>
             <div

@@ -6,10 +6,10 @@ import Image from "next/image";
 export default function Navbar() {
   return (
     <nav className="mt-[62px] ml-[30px]">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold text-gray-800 ">Dua Page</h1>
+      <div className="flex items-center lg:justify-between gap-6">
+        <h1 className="lg:text-2xl font-semibold text-gray-800 ">Dua Page</h1>
 
-        <div className="w-[371px] ml-[345px]">
+        <div className="w-[100px] lg:w-[371px] lg:ml-[360px]">
           <div className="flex items-center bg-white border border-gray-200 rounded-[10px]">
             <input
               type="text"
